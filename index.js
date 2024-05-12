@@ -40,11 +40,43 @@ async function run() {
       res.send(result);
     })
 
+    app.get('/tourSpots/:id', async(req, res) =>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await tourSpotCollection.findOne(query);
+      res.send(result);
+    })
+
+
     app.post('/tourSpots', async(req,res)=>{
       const newTourSpot = req.body;
       console.log(newTourSpot);
       const result = await tourSpotCollection.insertOne(newTourSpot);
       res.send(result)
+    })
+
+    app.put('/tourSpots/:id', async(req, res)=>{
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)};
+      const option = {upset: true};
+      const updatedSpot = req.body;
+      const spot = {
+        $set: {
+          spotName: updatedSpot.spotName,
+          countryName: updatedSpot.countryName,
+          location: updatedSpot.location,
+          shortDescription: updatedSpot.shortDescription,
+          averageCost: updatedSpot.averageCost,
+          seasonality: updatedSpot.seasonality,
+          travelTime: updatedSpot.travelTime,
+          visitor: updatedSpot.visitor,
+          email: updatedSpot.email,
+          name: updatedSpot.name,
+          image: updatedSpot.image
+        }
+      }
+      const result = await tourSpotCollection.updateOne(filter,spot,option)
+      res.send(result);
     })
 
     app.delete('/tourSpots/:id', async(req,res)=>{
