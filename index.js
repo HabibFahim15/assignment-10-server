@@ -40,20 +40,27 @@ async function run() {
       res.send(result);
     })
 
-    app.get('/tourSpots/:id', async(req, res) =>{
+    
+
+    app.get('/tourSpots/:email', async(req, res) =>{
+      const result = await tourSpotCollection.find({email:req.params.email}).toArray();
+      res.send(result)
+  })
+
+
+app.get('/tourSpots/:id', async(req, res) =>{
       const id = req.params.id;
       const query = {_id: new ObjectId(id)};
       const result = await tourSpotCollection.findOne(query);
       res.send(result);
     })
 
-
     app.post('/tourSpots', async(req,res)=>{
       const newTourSpot = req.body;
       console.log(newTourSpot);
       const result = await tourSpotCollection.insertOne(newTourSpot);
       res.send(result)
-    })
+    }) 
 
     app.put('/tourSpots/:id', async(req, res)=>{
       const id = req.params.id;
