@@ -40,8 +40,11 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     })
-    
-
+    app.get('/secondTourSpots', async(req, res) =>{
+      const cursor = tourSpotCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
     
 
     app.get('/tourSpots/:email', async(req, res) =>{
@@ -56,7 +59,7 @@ async function run() {
       const result = await tourSpotCollection.insertOne(newTourSpot);
       res.send(result)
     }) 
-
+    
     app.put('/tourSpots/:id', async(req, res)=>{
       const id = req.params.id;
       const filter = {_id: new ObjectId(id)};
